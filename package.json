@@ -1,0 +1,40 @@
+{
+  "name": "fibraserver",
+  "version": "1.0.0",
+  "description": "Api Rest de facturacion electronica",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app",
+    "start": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hijujuy/fibraserver.git"
+  },
+  "keywords": [
+    "factura",
+    "electronica",
+    "wsfe",
+    "afip",
+    "comprobantes",
+    "en",
+    "linea."
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hijujuy/fibraserver/issues"
+  },
+  "homepage": "https://github.com/hijujuy/fibraserver#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
