@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
-const router = require('./network/router')
+const routes = require('./network/routes')
 
 //Definicion del servidor express
 const server = express()
@@ -18,6 +18,6 @@ server.use(morgan('dev'))
  * Componente encargado de recibir 
  * las solicitudes que ingresan al servidor 
  */
-//router(server)
+routes(server)
 
 module.exports = server
