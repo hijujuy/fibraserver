@@ -44,12 +44,11 @@ const signin = async(req, res) => {
         message: 'Clave incorrecta.'
       });
     }
-
     const token = jwt.sign({ id: result.id }, secret, {
       expiresIn: 300, //expresado en segundos
     });
 
-    res.json({ token })
+    res.status(200).json({ token })
 
   } catch (error) {
     console.log(error);
