@@ -24,10 +24,39 @@ const signup = async(req, res) => {
 
   } catch (error) {
     console.log(error);
-    return res.status(500).json(error);
+    return res.status(400).json(error);
+  }
+}
+
+const signin = async(req, res) => {
+  try {
+    const { nombre, clave } = req.body;
+    const result = await prisma.Usuario.findUnique({
+      where:{
+        nombre : nombre
+      }
+    })
+
+    const coincideClave = await bcrypt.compare(clave, result.clave);
+    if (!coincideClave) {
+      return res.status(401).json({
+        token: null,
+        message: 'Clave incorrecta.'
+      });
+    }
+
+    const token = jwt.sign({ id: result.id }, secret, {
+      expiresIn: 300, //expresado en segundos
+    });
+
+    res.json({ token })
+
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json(error);
   }
 }
 
 module.exports = {
-  signup,
+  signup, signin,
 }

@@ -9,15 +9,32 @@ const nombreExists = async (nombre = '') => {
       nombre: nombre,
     },
   });
+  
+  if (!usuario){
+    return Promise.reject('El nombre de usuario no fué registrado.');
+  }
+  else if (usuario.nombre == nombre) {
+    return true;
+  }
+}
+
+const nombreNoExists = async (nombre = '') => {
+  // Verificar si el nombre de usuario no existe
+  
+  const usuario = await prisma.Usuario.findFirst({
+    where: {
+      nombre: nombre,
+    },
+  });
       
   if (!usuario){
     return true;
   }
-  else if (nombre == usuario.nombre){
-    throw new Error(`El usuario ${nombre} ya fué registrado`);
+  else if (usuario.nombre == nombre) {
+    return Promise.reject('El nombre de usuario ya fué registrado.')
   }
 }
 
 module.exports = {
-    nombreExists,
+    nombreExists, nombreNoExists
 }

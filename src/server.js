@@ -15,7 +15,7 @@ server.use(express.json())
 server.use(morgan('dev'))
 
 /**
- * Componente encargado de recibir 
+ * Componente encargado de enrutar
  * las solicitudes que ingresan al servidor 
  */
 routes(server)

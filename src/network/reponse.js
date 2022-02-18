@@ -5,12 +5,12 @@ const success = function(req, res, message, status) {
     });
 }
 
-const error = function(req, res, message, details = null) {    
-    if (res.status === 500) {
-        console.log(`[response error] ${details}`);
-    }
+const error = function(errors, req, res, next) {    
+    
+    console.log(errors.errors);
+
     res.status(400).json({
-        error: message,
+        error: "Ocurrio un error en el sistema.",
         body: ''
     })
 }
