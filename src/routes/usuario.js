@@ -6,9 +6,13 @@ const router = express.Router()
 
 router.get('/', controller.readAll)
 
-// router.get('/:id', controller.readById)
+router.post('/', controller.createUsuario)
 
-router.post('/', controller.create)
+router.post('/supervisor', controller.createSupervisor)
+
+router.post('/titular', controller.createTitular)
+
+// router.get('/:id', controller.readById)
 
 // router.put('/:id', controller.update)
 

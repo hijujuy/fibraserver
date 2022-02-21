@@ -22,7 +22,8 @@ model persona {
 model usuario {
   id      Int       @id @default(autoincrement())
   email   String?   @unique(map: "Usuario_nombre_key") @db.VarChar(100)
-  clave   String?   @db.VarChar(200)
+  clave   String?   @db.VarChar(10)
+  perfil   String?   @db.VarChar(100)
   activo  Boolean   @default(true)
   persona persona[]
 }
