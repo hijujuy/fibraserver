@@ -1,16 +1,24 @@
-const express = require('express')
+const express = require('express');
 
-const controller = require('../controllers/usuario')
+const middleAuth = require('../middlewares/auth');
 
-const router = express.Router()
+const middleUser = require('../middlewares/usuario')
 
-router.get('/', controller.readAll)
+const controller = require('../controllers/usuario');
 
-router.post('/', controller.createUsuario)
+const router = express.Router();
 
-router.post('/supervisor', controller.createSupervisor)
+router.get('/', controller.readAll);
 
-router.post('/titular', controller.createTitular)
+router.post('/titular',
+  middleAuth.checkToken,
+  middleUser.checkAdministrador,
+  controller.createTitular
+);
+
+router.post('/', controller.createUsuario);
+
+router.post('/supervisor', controller.createSupervisor);
 
 // router.get('/:id', controller.readById)
 

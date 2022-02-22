@@ -21,7 +21,7 @@ const nombreExists = async (nombre = '') => {
 const nombreNoExists = async (nombre = '') => {
   // Verificar si el nombre de usuario no existe
   
-  const usuario = await prisma.Usuario.findFirst({
+  const usuario = await prisma.usuario.findFirst({
     where: {
       nombre: nombre,
     },
@@ -35,6 +35,56 @@ const nombreNoExists = async (nombre = '') => {
   }
 }
 
+const esAdministrador = async () => {
+  // Verificar si el usuario autenticado posee el perfil de Administrador
+  const usuario = _findUnique(id);
+
+  if (usuario.perfil === 'administrador') {
+    return true;
+  }
+  else {
+    return Promise.reject('El usuario no tiene autorizacion.');
+  }
+}
+
+const esTitular = async () => {
+  const usuario = _findUnique(id);
+
+  if (usuario.perfil === 'titular') { 
+    return true;
+  }
+  else {
+    return Promise.reject('El usuario no tiene autorizacion.')
+  }
+}
+
+const esSupervisor = async () => {
+  const usuario = _findUnique(id);
+
+  if (usuario.perfil === 'supervisor') { 
+    return true;
+  }
+  else {
+    return Promise.reject('El usuario no tiene autorizacion.')
+  }
+}
+
+const _findUnique = (id) => {
+  const usuario = await prisma.usuario.findUnique({
+    where: {
+      id : id,
+    },
+    select: {
+      perfil: true
+    },
+  });
+  return usuario;
+}
+
 module.exports = {
-    nombreExists, nombreNoExists
+    nombreExists, 
+    nombreNoExists,
+    esAdministrador,
+    esTitular,
+    esSupervisor,
 }

@@ -1,5 +1,6 @@
-const { body, validationResult } = require('express-validator')
+const { header, body, validationResult } = require('express-validator')
 const { nombreExists, nombreNoExists } = require('../helpers/usuario')
+const { verificarToken } = require('../helpers/auth')
 
 const signup = [
   body('nombre')
@@ -45,6 +46,26 @@ const signin = [
   }
 ]
 
+const checkToken = [
+  header('access-token')
+    .exists({checkFalsy: true})
+      .withMessage('El usuario no esta autenticado.')
+      .bail()
+    .custom(verificarToken)
+      .bail(),
+
+  (req, res, next) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      next(errors);
+    }
+
+    next()
+  }
+]
+
 module.exports = {  
- signup,signin
+ signup,
+ signin,
+ checkToken,
 }
