@@ -7,23 +7,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model persona {
-  id         Int     @id @default(autoincrement())
-  nombre     String  @db.VarChar(100)
-  apellido   String  @db.VarChar(100)
-  telefono   String  @db.VarChar(50)
-  documento  String  @db.VarChar(10)
-  id_usuario Int
-  usuario    usuario @relation(fields: [id_usuario], references: [id], onDelete: Cascade, map: "persona_ibfk_1")
-
-  @@index([id_usuario], map: "id_usuario")
+model usuario {
+  id              Int             @id @default(autoincrement())
+  email           String?         @unique(map: "Usuario_nombre_key") @db.VarChar(100)
+  clave           String?         @db.VarChar(10)
+  activo          Boolean         @default(true)
+  perfilId        Int          
+  perfil          perfil?          @relation(fields: [perfilId], references: [id])
+  persona         persona?  
 }
 
-model usuario {
-  id      Int       @id @default(autoincrement())
-  email   String?   @unique(map: "Usuario_nombre_key") @db.VarChar(100)
-  clave   String?   @db.VarChar(10)
-  perfil   String?   @db.VarChar(100)
-  activo  Boolean   @default(true)
-  persona persona[]
+model perfil {
+  id              Int             @id @default(autoincrement())
+  descripcion     String          @db.VarChar(100)
+  usuario         usuario[]
+}
+
+model persona {
+  id              Int             @id @default(autoincrement())
+  nombre          String          @db.VarChar(100)
+  apellido        String          @db.VarChar(100)
+  telefono        String          @db.VarChar(50)
+  documento       String          @db.VarChar(10)
+  usuarioId       Int?            @unique
+  usuario         usuario?        @relation(fields: [usuarioId], references: [id])
 }

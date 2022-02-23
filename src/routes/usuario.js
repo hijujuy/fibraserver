@@ -1,8 +1,8 @@
 const express = require('express');
 
-const middleAuth = require('../middlewares/auth');
+const validatorAuth = require('../middlewares/auth');
 
-const middleUser = require('../middlewares/usuario')
+const validatorUser = require('../middlewares/usuario')
 
 const controller = require('../controllers/usuario');
 
@@ -10,15 +10,23 @@ const router = express.Router();
 
 router.get('/', controller.readAll);
 
-router.post('/titular',
-  middleAuth.checkToken,
-  middleUser.checkAdministrador,
-  controller.createTitular
+router.post('/',
+  validatorAuth.checkToken,
+  validatorUser.checkSupervisor,
+  controller.createUsuario
 );
 
-router.post('/', controller.createUsuario);
+router.post('/supervisor',
+  validatorAuth.checkToken,
+  validatorUser.checkTitular,
+  controller.createSupervisor
+);
 
-router.post('/supervisor', controller.createSupervisor);
+router.post('/titular',
+  validatorAuth.checkToken,
+  validatorUser.checkAdministrador,
+  controller.createTitular
+);
 
 // router.get('/:id', controller.readById)
 
