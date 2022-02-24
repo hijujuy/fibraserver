@@ -1,13 +1,13 @@
 const { header, body, validationResult } = require('express-validator')
-const { nombreExists, nombreNoExists } = require('../helpers/usuario')
+const { emailExists, emailNoExists } = require('../helpers/usuario')
 const { verificarToken } = require('../helpers/auth')
 
 const signup = [
-  body('nombre')
+  body('email')
     .exists({checkFalsy: true})
-      .withMessage('El campo nombre esta vacio.')
+      .withMessage('El campo email esta vacio.')
       .bail()
-    .custom(nombreNoExists)
+    .custom(emailNoExists)
       .bail(),
   body('clave')
     .exists({checkFalsy: true})
@@ -25,11 +25,11 @@ const signup = [
 ]
 
 const signin = [
-  body('nombre')
+  body('email')
     .exists({checkFalsy: true})
-      .withMessage('El campo nombre esta vacio.')
+      .withMessage('El campo email esta vacio.')
       .bail()
-    .custom(nombreExists)
+    .custom(emailExists)
       .bail(),
   body('clave')
     .exists({checkFalsy: true})

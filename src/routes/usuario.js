@@ -13,19 +13,19 @@ router.get('/', controller.readAll);
 router.post('/',
   validatorAuth.checkToken,
   validatorUser.checkSupervisor,
-  controller.createUsuario
+  controller.create
 );
 
 router.post('/supervisor',
   validatorAuth.checkToken,
   validatorUser.checkTitular,
-  controller.createSupervisor
+  controller.create
 );
 
 router.post('/titular',
   validatorAuth.checkToken,
   validatorUser.checkAdministrador,
-  controller.createTitular
+  controller.create
 );
 
 // router.get('/:id', controller.readById)

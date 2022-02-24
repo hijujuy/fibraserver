@@ -1,75 +1,19 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient()
 
-const nombreExists = async (nombre = '') => {
-  // Verificar si el nombre de usuario existe
-  
-  const usuario = await prisma.Usuario.findFirst({
-    where: {
-      nombre: nombre,
-    },
-  });
-  
-  if (!usuario){
-    return Promise.reject('El nombre de usuario no fué registrado.');
-  }
-  else if (usuario.nombre == nombre) {
-    return true;
-  }
-}
-
-const nombreNoExists = async (nombre = '') => {
-  // Verificar si el nombre de usuario no existe
-  
+const _findEmail = async (email) => {
   const usuario = await prisma.usuario.findFirst({
     where: {
-      nombre: nombre,
+      email: email
     },
+    select: {
+      email: true
+    }
   });
-      
-  if (!usuario){
-    return true;
-  }
-  else if (usuario.nombre == nombre) {
-    return Promise.reject('El nombre de usuario ya fué registrado.')
-  }
+  return usuario;
 }
 
-const esAdministrador = async () => {
-  // Verificar si el usuario autenticado posee el perfil de Administrador
-  const usuario = _findUnique(id);
-
-  if (usuario.perfil === 'administrador') {
-    return true;
-  }
-  else {
-    return Promise.reject('El usuario no tiene autorizacion.');
-  }
-}
-
-const esTitular = async () => {
-  const usuario = _findUnique(id);
-
-  if (usuario.perfil === 'titular') { 
-    return true;
-  }
-  else {
-    return Promise.reject('El usuario no tiene autorizacion.')
-  }
-}
-
-const esSupervisor = async () => {
-  const usuario = _findUnique(id);
-
-  if (usuario.perfil === 'supervisor') { 
-    return true;
-  }
-  else {
-    return Promise.reject('El usuario no tiene autorizacion.')
-  }
-}
-
-const _findUnique = (id) => {
+const _findUnique = async (id) => {
   const usuario = await prisma.usuario.findUnique({
     where: {
       id : id,
@@ -81,9 +25,67 @@ const _findUnique = (id) => {
   return usuario;
 }
 
+const emailExists = (email = '') => {
+  // Verificar si el nombre de usuario existe
+  const usuario = _findEmail(email);
+    
+  if (!usuario){
+    return Promise.reject('El nombre de usuario no fué registrado.');
+  }
+  else if (usuario.email == email) {
+    return true;
+  }
+}
+
+const emailNoExists = (email = '') => {
+  // Verificar si el nombre de usuario no existe
+  const usuario = _findEmail(email);
+      
+  if (!usuario){
+    return true;
+  }
+  else if (usuario.nombre == nombre) {
+    return Promise.reject('El nombre de usuario ya fué registrado.')
+  }
+}
+
+const esAdministrador = () => {
+  // Verificar si el usuario autenticado posee el perfil de Administrador
+  const usuario = _findUnique(id);
+
+  if (usuario.perfil.descripcion === 'administrador') {
+    return true;
+  }
+  else {
+    return Promise.reject('El usuario no tiene autorizacion.');
+  }
+}
+
+const esTitular = () => {
+  const usuario = _findUnique(id);
+
+  if (usuario.perfil.descripcion === 'titular') { 
+    return true;
+  }
+  else {
+    return Promise.reject('El usuario no tiene autorizacion.')
+  }
+}
+
+const esSupervisor = () => {
+  const usuario = _findUnique(id);
+
+  if (usuario.perfil.descripcion === 'supervisor') { 
+    return true;
+  }
+  else {
+    return Promise.reject('El usuario no tiene autorizacion.')
+  }
+}
+
 module.exports = {
-    nombreExists, 
-    nombreNoExists,
+    emailExists, 
+    emailNoExists,
     esAdministrador,
     esTitular,
     esSupervisor,

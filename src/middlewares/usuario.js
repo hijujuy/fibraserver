@@ -1,5 +1,5 @@
 const { body, validationResult } = require('express-validator')
-const { esAdministrador } = require('../helpers/usuario')
+const { esAdministrador, esSupervisor, esTitular } = require('../helpers/usuario')
 
 const checkAdministrador = [
   body('id')
