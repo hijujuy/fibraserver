@@ -1,18 +1,20 @@
-const express = require('express')
-const cors = require('cors')
-const morgan = require('morgan')
-const routes = require('./network/routes')
+const express = require('express');
+const cors = require('cors');
+const morgan = require('morgan');
+const routes = require('./network/routes');
+const initialsetup = require('../src/libraries/initialsetup');
 
 //Definicion del servidor express
-const server = express()
+const server = express();
+initialsetup.crearPerfiles();
 
 //Aplicacion de los middlewares
 //Cors
-server.use(cors())
+server.use(cors());
 //Lectura y parseo del body json
-server.use(express.json())
+server.use(express.json());
 //Escribe las request en la consola del servidor
-server.use(morgan('dev'))
+server.use(morgan('dev'));
 
 /**
  * Componente encargado de enrutar

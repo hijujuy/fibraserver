@@ -6,8 +6,7 @@ const checkAdministrador = [
     .exists({checkFalsy: true})
       .withMessage('El campo id esta vacio.')
       .bail()
-    .custom(esAdministrador)
-      .bail(),
+    .custom(esAdministrador),
 
   (req, res, next) => {
     const errors = validationResult(req)
@@ -24,8 +23,7 @@ const checkTitular = [
     .exists({checkFalsy: true})
       .withMessage('El campo id esta vacio.')
       .bail()
-    .custom(esTitular)
-      .bail(),
+    .custom(esTitular),
 
   (req, res, next) => {
     const errors = validationResult(req)
@@ -42,8 +40,7 @@ const checkSupervisor = [
     .exists({checkFalsy: true})
       .withMessage('El campo id esta vacio.')
       .bail()
-    .custom(esSupervisor)
-      .bail(),
+    .custom(esSupervisor),
 
   (req, res, next) => {
     const errors = validationResult(req)

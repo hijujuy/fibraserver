@@ -7,17 +7,17 @@ const secret = process.env.SECRET;
 
 const signup = async(req, res) => {
   try {
-    const { nombre, clave } = req.body;
+    const { email, clave } = req.body;
     const salt = await bcrypt.genSalt(10);
 
-    const result = await prisma.Usuario.create({
+    const result = await prisma.usuario.create({
       data: {
-        nombre,
+        email,
         clave: await bcrypt.hash(clave, salt),
       }
     });
     const token = jwt.sign({ id: result.id }, secret, {
-      expiresIn: 300, //expresado en segundos
+      expiresIn: 300, //expresado en 300 segundos
     });
 
     res.status(201).json({token});
@@ -30,10 +30,10 @@ const signup = async(req, res) => {
 
 const signin = async(req, res) => {
   try {
-    const { nombre, clave } = req.body;
-    const result = await prisma.Usuario.findUnique({
+    const { email, clave } = req.body;
+    const result = await prisma.usuario.findUnique({
       where:{
-        nombre : nombre
+        email: email
       }
     })
 
@@ -41,7 +41,7 @@ const signin = async(req, res) => {
     if (!coincideClave) {
       return res.status(401).json({
         token: null,
-        message: 'Clave incorrecta.'
+        message: 'Usuario o contraseña invalidos.'
       });
     }
     const token = jwt.sign({ id: result.id }, secret, {

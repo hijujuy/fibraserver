@@ -7,8 +7,7 @@ const signup = [
     .exists({checkFalsy: true})
       .withMessage('El campo email esta vacio.')
       .bail()
-    .custom(emailNoExists)
-      .bail(),
+    .custom(emailNoExists),
   body('clave')
     .exists({checkFalsy: true})
       .withMessage('El campo clave esta vacio.')
@@ -29,8 +28,7 @@ const signin = [
     .exists({checkFalsy: true})
       .withMessage('El campo email esta vacio.')
       .bail()
-    .custom(emailExists)
-      .bail(),
+    .custom(emailExists),
   body('clave')
     .exists({checkFalsy: true})
       .withMessage('El campo clave esta vacio.')
@@ -51,8 +49,7 @@ const checkToken = [
     .exists({checkFalsy: true})
       .withMessage('El usuario no esta autenticado.')
       .bail()
-    .custom(verificarToken)
-      .bail(),
+    .custom(verificarToken),
 
   (req, res, next) => {
     const errors = validationResult(req)

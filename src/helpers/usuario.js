@@ -5,9 +5,6 @@ const _findEmail = async (email) => {
   const usuario = await prisma.usuario.findFirst({
     where: {
       email: email
-    },
-    select: {
-      email: true
     }
   });
   return usuario;
